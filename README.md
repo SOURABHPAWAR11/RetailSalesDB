@@ -16,7 +16,6 @@ The database consists of four tables:
 - **Orders**: Tracks order headers (OrderID, CustomerID, OrderDate, TotalAmount).
 - **OrderDetails**: Links orders to products (OrderDetailID, OrderID, ProductID, Quantity, UnitPrice).
 
-![ERD](ERD.png)
 
 - **Constraints**: Primary/foreign keys ensure relationships; CHECK constraints enforce data integrity (e.g., non-negative stock).
 - **Index**: On `Orders.OrderDate` for faster date-based queries.
