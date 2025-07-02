@@ -1,4 +1,3 @@
-# RetailSalesDB
 # RetailSalesDB - MSSQL Retail Sales Management System
 
 ## Overview
