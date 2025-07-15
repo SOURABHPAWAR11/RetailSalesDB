@@ -164,11 +164,9 @@ GO
 -- Queries for Analysis
 
 -- 1. Total Sales by Category (Using Stored Procedure)
--- Shows how to use the stored procedure for sales reporting
 EXEC GetSalesByCategory '2023-01-01', '2025-06-24';
 
 -- 2. Top 5 Customers by Total Spending
--- Basic JOIN and GROUP BY
 SELECT 
     c.FirstName + ' ' + c.LastName AS CustomerName,
     SUM(o.TotalAmount) AS TotalSpent
@@ -179,7 +177,6 @@ ORDER BY TotalSpent DESC
 OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY;
 
 -- 3. Monthly Sales Summary
--- Intermediate GROUP BY with date formatting
 SELECT 
     FORMAT(o.OrderDate, 'yyyy-MM') AS Month,
     COUNT(o.OrderID) AS OrderCount,
@@ -189,7 +186,6 @@ GROUP BY FORMAT(o.OrderDate, 'yyyy-MM')
 ORDER BY Month;
 
 -- 4. Products with Low Stock
--- Basic filtering
 SELECT 
     ProductName,
     Category,
@@ -199,7 +195,6 @@ WHERE StockQuantity < 50
 ORDER BY StockQuantity;
 
 -- 5. Customer Order Details
--- Basic JOIN across multiple tables
 SELECT 
     c.FirstName + ' ' + c.LastName AS CustomerName,
     o.OrderID,
@@ -215,13 +210,11 @@ WHERE o.OrderDate >= '2025-01-01'
 ORDER BY o.OrderDate;
 
 -- 6. Average Order Value
--- Basic aggregation
 SELECT 
     AVG(TotalAmount) AS AverageOrderValue
 FROM Orders;
 
 -- 7. Top 5 Products by Sales Volume
--- Intermediate JOIN and GROUP BY
 SELECT 
     p.ProductName,
     p.Category,
@@ -233,7 +226,6 @@ ORDER BY TotalUnitsSold DESC
 OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY;
 
 -- 8. Customers with Above-Average Spending
--- Intermediate subquery
 SELECT 
     CustomerName,
     TotalSpent
@@ -242,7 +234,6 @@ WHERE TotalSpent > (SELECT AVG(TotalSpent) FROM CustomerOrderSummary)
 ORDER BY TotalSpent DESC;
 
 -- 9. Sales Contribution by Category
--- Light advanced with subquery for percentage
 SELECT 
     p.Category,
     SUM(od.Quantity * od.UnitPrice) AS CategoryRevenue,
@@ -256,7 +247,6 @@ ORDER BY CategoryRevenue DESC;
 -- Additional Queries (Intermediate to Light Advanced)
 
 -- 10. Product Sales by Quarter
--- Intermediate: Groups by quarter using DATEPART
 -- Purpose: Analyzes seasonal sales patterns for inventory planning
 SELECT 
     p.Category,
@@ -271,7 +261,6 @@ GROUP BY p.Category, DATEPART(YEAR, o.OrderDate), DATEPART(QUARTER, o.OrderDate)
 ORDER BY SalesYear, SalesQuarter, TotalRevenue DESC;
 
 -- 11. Customers with No Orders in Last 6 Months
--- Intermediate: Uses DATEDIFF and NOT EXISTS for filtering
 -- Purpose: Identifies inactive customers for re-engagement campaigns
 SELECT 
     c.CustomerID,
@@ -287,7 +276,6 @@ WHERE NOT EXISTS (
 ORDER BY c.CustomerID;
 
 -- 12. Top 3 Products per Category by Revenue
--- Light Advanced: Uses a derived table with ROW_NUMBER
 -- Purpose: Highlights best-performing products within each category
 SELECT 
     Category,
@@ -307,7 +295,6 @@ WHERE Rank <= 3
 ORDER BY Category, TotalRevenue DESC;
 
 -- 13. Orders with Multiple Categories
--- Intermediate: Uses COUNT and DISTINCT to find diverse orders
 -- Purpose: Identifies orders with products from different categories for cross-selling analysis
 SELECT 
     o.OrderID,
